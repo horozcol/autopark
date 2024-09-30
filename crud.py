@@ -10,13 +10,17 @@ def exist_auto(plate):
     pl = (plate, 0,)
     my_cursor.execute(sql, pl)
     result = my_cursor.fetchall()
-    idauto = result[0][0]
     my_con.close()
-    print(f"el auto con placas {plate} tiene id {idauto}")
     if len(result) == 0:
-        return 0
+        return 0,0
     else:
+        idauto = result[0][0]
+        print(f"el auto con placas {plate} tiene id {idauto}")
         return 1, idauto
+
+
+
+
 
 def up_fecha_liquidar(idauto):
     print(f"se actualiza la fecha de salida al auto con id: {idauto}")
@@ -128,6 +132,8 @@ def liquidar_auto(idauto):
     pl = (idauto,)
     my_cursor.execute(sql, pl)
     result = my_cursor.fetchall()
+    date_in = result[0][1]
+    date_out = result[0][2]
     print(f"result {result} del id {idauto} para liquidar")
 
     alltime = result[0][3].total_seconds()
@@ -140,7 +146,8 @@ def liquidar_auto(idauto):
     result = my_cursor.fetchall()
     total_pago = result[0][0] * totalhoras
     print(f"${total_pago}")
-    return total_pago
+
+    return total_pago, totalhoras, date_in,date_out
 
 def set_dout_auto(idauto):
     print(f"se da salida al auto con id: {idauto}")

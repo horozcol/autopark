@@ -19,7 +19,7 @@ import gc
 reader = easyocr.Reader(['en'], gpu=False)
 license_plate_detector = YOLO('license_plate_detector.pt')
 
-delta = 5
+delta = 30
 min_score = 0.40
 max_not_seen = 1
 x_porc = 0
@@ -47,7 +47,7 @@ def ocr_plate(frame, thres=90, maxval=180):
         license_plate_crop_gray = cv2.cvtColor(license_plate_crop, cv2.COLOR_BGR2GRAY)
         #_, license_plate_crop_thresh = cv2.threshold(license_plate_crop_gray, thres, maxval,cv2.THRESH_BINARY)
 
-        license_plate_crop_thresh = cv2.adaptiveThreshold(license_plate_crop_gray, 185, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 259, 19)
+        license_plate_crop_thresh = cv2.adaptiveThreshold(license_plate_crop_gray, 185, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 279, 19)
 
         license_plate_text, license_plate_text_score = read_license_plate(license_plate_crop_thresh, thres,maxval)
 
